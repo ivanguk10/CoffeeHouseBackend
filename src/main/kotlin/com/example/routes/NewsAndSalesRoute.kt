@@ -1,26 +1,24 @@
 package com.example.routes
 
-import com.example.data.entities.NewsAndSalesDraft
+import com.example.data.entities.newsAndSales.NewsAndSalesDraft
 import com.example.repository.newsAndSales.NewsAndSalesRepository
-import com.example.repository.newsAndSales.NewsAndSalesRepositoryImpl
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
-val newsRepository: NewsAndSalesRepository = NewsAndSalesRepositoryImpl()
 
-fun Route.getNews() {
+fun Route.getNews(newsAndSalesRepository: NewsAndSalesRepository) {
     get("/news") {
         call.respond(
             HttpStatusCode.OK,
-            newsRepository.getNews()
+            newsAndSalesRepository.getNews()
         )
     }
 }
 
-fun Route.getNewsId() {
+fun Route.getNewsId(newsAndSalesRepository: NewsAndSalesRepository) {
     get("/news/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
 
@@ -32,7 +30,7 @@ fun Route.getNewsId() {
             return@get
         }
 
-        val news = newsRepository.getNewsId(id)
+        val news = newsAndSalesRepository.getNewsId(id)
 
         if (news == null) {
             call.respond(
@@ -48,15 +46,15 @@ fun Route.getNewsId() {
     }
 }
 
-fun Route.postNews() {
+fun Route.postNews(newsAndSalesRepository: NewsAndSalesRepository) {
     post("/news") {
         val newsDraft = call.receive<NewsAndSalesDraft>()
-        val news = newsRepository.addNews(newsDraft)
+        val news = newsAndSalesRepository.addNews(newsDraft)
         call.respond(news)
     }
 }
 
-fun Route.putNews() {
+fun Route.putNews(newsAndSalesRepository: NewsAndSalesRepository) {
     put("/news/{id}") {
         val newsId = call.parameters["id"]?.toIntOrNull()
         val newsDraft = call.receive<NewsAndSalesDraft>()
@@ -68,7 +66,7 @@ fun Route.putNews() {
             )
             return@put
         }
-        val updatedNews = newsRepository.updateNews(newsId, newsDraft)
+        val updatedNews = newsAndSalesRepository.updateNews(newsId, newsDraft)
 
         if (updatedNews) {
             call.respond(HttpStatusCode.OK)
@@ -81,7 +79,7 @@ fun Route.putNews() {
     }
 }
 
-fun Route.deleteNews() {
+fun Route.deleteNews(newsAndSalesRepository: NewsAndSalesRepository) {
     delete("/news/{id}") {
         val newsId = call.parameters["id"]?.toIntOrNull()
 
@@ -92,7 +90,7 @@ fun Route.deleteNews() {
             )
             return@delete
         }
-        val removed = newsRepository.removeNews(newsId)
+        val removed = newsAndSalesRepository.removeNews(newsId)
         if (removed) {
             call.respond(HttpStatusCode.OK)
         } else {

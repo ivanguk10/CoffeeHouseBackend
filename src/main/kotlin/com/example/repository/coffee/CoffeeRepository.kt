@@ -1,15 +1,10 @@
 package com.example.repository.coffee
 
-import com.example.data.CoffeeDao
-import com.example.data.entities.CoffeeDraft
-import com.example.data.entities.CoffeeEntity
+import com.example.data.dao.coffee.CoffeeDao
+import com.example.data.entities.coffee.CoffeeDraft
+import com.example.data.entities.coffee.CoffeeEntity
 
 class CoffeeRepository(private val coffeeDao: CoffeeDao) {
-    private val coffeeList = mutableListOf(
-        CoffeeEntity(1, "Cappuccino", 300f),
-        CoffeeEntity(2, "Latte", 300f)
-    )
-
 
     suspend fun getCoffee(): List<CoffeeEntity> {
         return coffeeDao.getCoffee()

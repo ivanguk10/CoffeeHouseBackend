@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.repository.coffee.CoffeeRepository
+import com.example.repository.newsAndSales.NewsAndSalesRepository
 import com.example.routes.*
 import io.ktor.routing.*
 import io.ktor.http.*
@@ -13,6 +14,7 @@ import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
     val coffeeRepository by inject<CoffeeRepository>()
+    val newsAndSalesRepository by inject<NewsAndSalesRepository>()
 
     routing {
         getCoffee(coffeeRepository)
@@ -22,11 +24,11 @@ fun Application.configureRouting() {
         deleteCoffee(coffeeRepository)
 
 
-        getNews()
-        getNewsId()
-        get("/") {
-                call.respondText("Hello World!")
-            }
+        getNews(newsAndSalesRepository)
+        getNewsId(newsAndSalesRepository)
+        postNews(newsAndSalesRepository)
+        putNews(newsAndSalesRepository)
+        deleteNews(newsAndSalesRepository)
         // Static plugin. Try to access `/static/index.html`
         static("/static") {
             resources("static")

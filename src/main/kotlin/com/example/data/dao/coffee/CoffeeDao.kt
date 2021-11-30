@@ -1,7 +1,7 @@
-package com.example.data
+package com.example.data.dao.coffee
 
-import com.example.data.entities.CoffeeDraft
-import com.example.data.entities.CoffeeEntity
+import com.example.data.entities.coffee.CoffeeDraft
+import com.example.data.entities.coffee.CoffeeEntity
 
 interface CoffeeDao {
     suspend fun getCoffee(): List<CoffeeEntity>
