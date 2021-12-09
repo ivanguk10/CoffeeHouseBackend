@@ -1,24 +1,26 @@
 package com.example.routes
 
 import com.example.data.entities.coffee.CoffeeDraft
+import com.example.data.entities.tea.TeaDraft
 import com.example.repository.coffee.CoffeeRepository
+import com.example.repository.tea.TeaRepository
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
-fun Route.getCoffee(coffeeRepository: CoffeeRepository) {
-    get("/coffee") {
+fun Route.getTea(teaRepository: TeaRepository) {
+    get("/tea") {
         call.respond(
             HttpStatusCode.OK,
-            coffeeRepository.getCoffee()
+            teaRepository.getTea()
         )
     }
 }
 
-fun Route.getCoffeeId(coffeeRepository: CoffeeRepository) {
-    get("/coffee/{id}") {
+fun Route.getTeaId(teaRepository: TeaRepository) {
+    get("/tea/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
 
         if (id == null) {
@@ -28,36 +30,36 @@ fun Route.getCoffeeId(coffeeRepository: CoffeeRepository) {
             )
             return@get
         }
-        val coffee = coffeeRepository.getCoffeeId(id)
+        val tea = teaRepository.getTeaId(id)
 
-        if (coffee == null) {
+        if (tea == null) {
             call.respond(
                 HttpStatusCode.NotFound,
-                "No coffee with id = $id"
+                "No tea with id = $id"
             )
         } else {
             call.respond(
                 HttpStatusCode.OK,
-                coffee
+                tea
             )
         }
     }
 }
 
-fun Route.postCoffee(coffeeRepository: CoffeeRepository) {
-    post("/coffee") {
-        val coffeeDraft = call.receive<CoffeeDraft>()
-        val coffee = coffeeRepository.addCoffee(coffeeDraft)
-        call.respond(coffee)
+fun Route.postTea(teaRepository: TeaRepository) {
+    post("/tea") {
+        val teaDraft = call.receive<TeaDraft>()
+        val tea = teaRepository.addTea(teaDraft)
+        call.respond(tea)
     }
 }
 
-fun Route.putCoffee(coffeeRepository: CoffeeRepository) {
-    put("/coffee/{id}") {
-        val coffeeId = call.parameters["id"]?.toIntOrNull()
-        val coffeeDraft = call.receive<CoffeeDraft>()
+fun Route.putTea(teaRepository: TeaRepository) {
+    put("/tea/{id}") {
+        val teaId = call.parameters["id"]?.toIntOrNull()
+        val teaDraft = call.receive<TeaDraft>()
 
-        if (coffeeId == null) {
+        if (teaId == null) {
             call.respond(
                 HttpStatusCode.BadRequest,
                 "Id should be Int"
@@ -65,37 +67,37 @@ fun Route.putCoffee(coffeeRepository: CoffeeRepository) {
             return@put
         }
 
-        val updatedCoffee = coffeeRepository.updateCoffee(coffeeId, coffeeDraft)
+        val updatedTea = teaRepository.updateTea(teaId, teaDraft)
 
-        if (updatedCoffee) {
+        if (updatedTea) {
             call.respond(HttpStatusCode.OK)
         } else {
             call.respond(
                 HttpStatusCode.NotFound,
-                "No coffee with id = $coffeeId"
+                "No tea with id = $teaId"
             )
         }
     }
 }
 
-fun Route.deleteCoffee(coffeeRepository: CoffeeRepository) {
-    delete("/coffee/{id}") {
-        val coffeeId = call.parameters["id"]?.toIntOrNull()
+fun Route.deleteTea(teaRepository: TeaRepository) {
+    delete("/tea/{id}") {
+        val teaId = call.parameters["id"]?.toIntOrNull()
 
-        if (coffeeId == null) {
+        if (teaId == null) {
             call.respond(
                 HttpStatusCode.BadRequest,
                 "Id should be Int"
             )
             return@delete
         }
-        val removedCoffee = coffeeRepository.removeCoffee(coffeeId)
-        if (removedCoffee) {
+        val removedTea = teaRepository.removeTea(teaId)
+        if (removedTea) {
             call.respond(HttpStatusCode.OK)
         } else {
             call.respond(
                 HttpStatusCode.NotFound,
-                "No coffee with id = $coffeeId"
+                "No tea with id = $teaId"
             )
         }
     }

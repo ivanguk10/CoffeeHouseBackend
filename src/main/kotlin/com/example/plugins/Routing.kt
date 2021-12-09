@@ -2,6 +2,7 @@ package com.example.plugins
 
 import com.example.repository.coffee.CoffeeRepository
 import com.example.repository.newsAndSales.NewsAndSalesRepository
+import com.example.repository.tea.TeaRepository
 import com.example.routes.*
 import io.ktor.routing.*
 import io.ktor.http.*
@@ -15,8 +16,16 @@ import org.koin.ktor.ext.inject
 fun Application.configureRouting() {
     val coffeeRepository by inject<CoffeeRepository>()
     val newsAndSalesRepository by inject<NewsAndSalesRepository>()
+    val teaRepository by inject<TeaRepository>()
 
     routing {
+        getTea(teaRepository)
+        getTeaId(teaRepository)
+        postTea(teaRepository)
+        putTea(teaRepository)
+        deleteTea(teaRepository)
+
+
         getCoffee(coffeeRepository)
         getCoffeeId(coffeeRepository)
         postCoffee(coffeeRepository)
