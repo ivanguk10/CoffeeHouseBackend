@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.repository.coffee.CoffeeRepository
+import com.example.repository.colddrinks.ColdDrinkRepository
 import com.example.repository.newsAndSales.NewsAndSalesRepository
 import com.example.repository.tea.TeaRepository
 import com.example.routes.*
@@ -17,8 +18,16 @@ fun Application.configureRouting() {
     val coffeeRepository by inject<CoffeeRepository>()
     val newsAndSalesRepository by inject<NewsAndSalesRepository>()
     val teaRepository by inject<TeaRepository>()
+    val coldDrinkRepository by inject<ColdDrinkRepository>()
 
     routing {
+        getDrink(coldDrinkRepository)
+        getDrinkId(coldDrinkRepository)
+        postDrink(coldDrinkRepository)
+        putDrink(coldDrinkRepository)
+        deleteDrink(coldDrinkRepository)
+
+
         getTea(teaRepository)
         getTeaId(teaRepository)
         postTea(teaRepository)

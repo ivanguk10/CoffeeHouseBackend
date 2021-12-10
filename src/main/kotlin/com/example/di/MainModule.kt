@@ -2,11 +2,14 @@ package com.example.di
 
 import com.example.data.dao.coffee.CoffeeDao
 import com.example.data.dao.coffee.CoffeeDaoImpl
+import com.example.data.dao.colddrinks.ColdDrinksDao
+import com.example.data.dao.colddrinks.ColdDrinksDaoImpl
 import com.example.data.dao.newsAndSales.NewsAndSalesDao
 import com.example.data.dao.newsAndSales.NewsAndSalesDaoImpl
 import com.example.data.dao.tea.TeaDao
 import com.example.data.dao.tea.TeaDaoImpl
 import com.example.repository.coffee.CoffeeRepository
+import com.example.repository.colddrinks.ColdDrinkRepository
 import com.example.repository.newsAndSales.NewsAndSalesRepository
 import com.example.repository.tea.TeaRepository
 import org.koin.dsl.module
@@ -39,6 +42,13 @@ val mainModule = module {
     }
     single {
         TeaRepository(get())
+    }
+
+    single<ColdDrinksDao> {
+        ColdDrinksDaoImpl(get())
+    }
+    single {
+        ColdDrinkRepository(get())
     }
 
 }
